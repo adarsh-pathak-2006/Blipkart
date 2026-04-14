@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from products.models import product
+
 
 def home(request):
-    return render(request, 'home.html')
+    item=product.objects.all()
+    return render(request, 'home.html',{ 'item':item  })
 
 def cart(request):
     return render(request, 'cart.html')
