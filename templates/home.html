@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blipkart || Home</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="{% static "home.css" %}">
 </head>
 <body>
     <ul type="none">
-        <a href=""><li id="home" class="nav">Home</li></a>
-        <a href=""><li class="nav">Cart</li></a>
-        <a href=""><li class="nav">account</li></a>
+        <a href="{% url "home" %}"><li id="home" class="nav">Home</li></a>
+        <a href="{% url "cart" %}"><li class="nav">Cart</li></a>
+        <a href="{% url "account" %}"><li class="nav">account</li></a>
     </ul>
 </body>
 </html>
