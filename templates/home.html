@@ -13,5 +13,13 @@
         <a href="{% url "cart" %}"><li class="nav">Cart</li></a>
         <a href="{% url "account" %}"><li class="nav">account</li></a>
     </ul>
+    
+    {% for i in item %}
+    <h1>{{ i.name }}</h1>
+    {{ i.price }}
+    {{ i.description }}
+    <img src="{{ i.image.url }}" width='200px'>
+    <a href="">add to cart</a>
+    {% endfor %}
 </body>
 </html>
