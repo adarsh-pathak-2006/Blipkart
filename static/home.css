@@ -1,0 +1,20 @@
+ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: rgb(101, 70, 131);
+    color: white;
+    height: 80px;
+    align-items: center;
+}
+.nav{
+    font-size: x-large;
+    font-weight: bolder;
+}
+#home{
+    background-color: white;
+    color: black;
+}
+body{
+    background-color: rgb(184, 156, 211);
+}
