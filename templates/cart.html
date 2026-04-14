@@ -13,5 +13,17 @@
         <a href="{% url "cart" %}"><li id="cart" class="nav">Cart</li></a>
         <a href="{% url "account" %}"><li class="nav">account</li></a>
     </ul>
+    {% for i in item %}
+    <h1>{{ i.name }}</h1>
+    {{ i.price }}
+    {{ i.description }}
+    <img src="{{ i.image.url }}" width='200px'>
+    <a href="{% url "add_to_cart" i.id %}">add to cart</a>
+    <a href="{% url 'remove_from_cart' i.id %}">Remove</a>
+    {% empty %}
+    <p>Cart is empty</p>
+    {% endfor %}
+
+    <h2>Total Price: ₹{{ total }}</h2>
 </body>
 </html>

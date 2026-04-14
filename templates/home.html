@@ -19,7 +19,7 @@
     {{ i.price }}
     {{ i.description }}
     <img src="{{ i.image.url }}" width='200px'>
-    <a href="">add to cart</a>
+    <a href="{% url "add_to_cart" i.id %}">add to cart</a>
     {% endfor %}
 </body>
 </html>
