@@ -1,20 +1,111 @@
-ul{
+﻿.cart-head {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    background-color: rgb(101, 70, 131);
-    color: white;
-    height: 80px;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.cart-head h1 {
+    margin: 6px 0 0;
+}
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 16px;
+}
+
+.cart-list {
+    display: grid;
+    gap: 12px;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 96px 1fr auto;
+    gap: 12px;
     align-items: center;
+    padding: 12px;
 }
-.nav{
-    font-size: x-large;
-    font-weight: bolder;
+
+.cart-item img {
+    width: 96px;
+    height: 96px;
+    border-radius: 12px;
+    object-fit: cover;
 }
-#cart{
-    background-color: white;
-    color: black;
+
+.cart-item-body p {
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 0.94rem;
 }
-body{
-    background-color: rgb(184, 156, 211);
+
+.cart-item-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.qty-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.qty-btn {
+    border: none;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.qty-value {
+    min-width: 26px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.summary {
+    padding: 16px;
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+}
+
+.summary h2 {
+    margin-top: 2px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 11px 0;
+    color: var(--muted);
+}
+
+.summary-line.total {
+    margin-top: 14px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+@media (max-width: 860px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        position: static;
+    }
+
+    .cart-item {
+        grid-template-columns: 1fr;
+    }
 }

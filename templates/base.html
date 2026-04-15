@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blipkart{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <header class="site-header">
+        <nav class="nav-shell">
+            <a class="brand" href="{% url 'home' %}">
+                <span class="brand-dot"></span>
+                Blipkart
+            </a>
+            <div class="nav-links">
+                {% with current=request.resolver_match.url_name %}
+                <a class="nav-link {% if current == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                <a class="nav-link {% if current == 'cart' %}active{% endif %}" href="{% url 'cart' %}">Cart</a>
+                <a class="nav-link {% if current == 'account' %}active{% endif %}" href="{% url 'account' %}">Account</a>
+                {% endwith %}
+            </div>
+            <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-btn-track">
+                    <span class="theme-btn-thumb"></span>
+                </span>
+                <span class="theme-btn-label">Theme</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-wrap">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Blipkart • Fast picks, better prices.</p>
+    </footer>
+
+    <script src="{% static 'app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

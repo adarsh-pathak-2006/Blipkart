@@ -1,29 +1,64 @@
+﻿{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blipkart || Home</title>
-    <link rel="stylesheet" href="{% static "cart.css" %}">
-</head>
-<body>
-    <ul type="none">
-        <a href="{% url "home" %}"><li class="nav">Home</li></a>
-        <a href="{% url "cart" %}"><li id="cart" class="nav">Cart</li></a>
-        <a href="{% url "account" %}"><li class="nav">account</li></a>
-    </ul>
-    {% for i in item %}
-    <h1>{{ i.name }}</h1>
-    {{ i.price }}
-    {{ i.description }}
-    <img src="{{ i.image.url }}" width='200px'>
-    <a href="{% url "add_to_cart" i.id %}">add to cart</a>
-    <a href="{% url 'remove_from_cart' i.id %}">Remove</a>
-    {% empty %}
-    <p>Cart is empty</p>
-    {% endfor %}
 
-    <h2>Total Price: ₹{{ total }}</h2>
-</body>
-</html>
+{% block title %}Blipkart | Cart{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'cart.css' %}">{% endblock %}
+
+{% block content %}
+<section class="cart-head reveal">
+    <div>
+        <p class="kicker">Checkout</p>
+        <h1>Your Cart</h1>
+    </div>
+    <a class="btn btn-ghost" href="{% url 'home' %}">Continue Shopping</a>
+</section>
+
+<section class="cart-layout">
+    <div class="cart-list">
+        {% for i in item %}
+        <article class="cart-item card-glass reveal" data-price="{{ i.price }}">
+            <img src="{{ i.image.url }}" alt="{{ i.name }}">
+            <div class="cart-item-body">
+                <h3>{{ i.name }}</h3>
+                <p>{{ i.description }}</p>
+                <strong>₹{{ i.price }}</strong>
+            </div>
+            <div class="cart-item-actions">
+                <div class="qty-control">
+                    <button type="button" class="qty-btn" data-action="minus">-</button>
+                    <span class="qty-value">1</span>
+                    <button type="button" class="qty-btn" data-action="plus">+</button>
+                </div>
+                <a class="btn btn-danger btn-small" href="{% url 'remove_from_cart' i.id %}">Remove</a>
+            </div>
+        </article>
+        {% empty %}
+        <article class="empty-card card-glass reveal">
+            <h3>Cart is empty</h3>
+            <p>Add some products to see them here.</p>
+        </article>
+        {% endfor %}
+    </div>
+
+    <aside class="summary card-glass reveal">
+        <h2>Order Summary</h2>
+        <div class="summary-line">
+            <span>Items</span>
+            <span id="itemCount">{{ item|length }}</span>
+        </div>
+        <div class="summary-line">
+            <span>Subtotal</span>
+            <span id="serverTotal" data-total="{{ total }}">₹{{ total }}</span>
+        </div>
+        <div class="summary-line">
+            <span>Delivery</span>
+            <span>Free</span>
+        </div>
+        <div class="summary-line total">
+            <span>Total</span>
+            <span id="liveTotal">₹{{ total }}</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-full">Proceed To Pay</button>
+    </aside>
+</section>
+{% endblock %}

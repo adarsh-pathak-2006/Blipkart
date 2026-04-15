@@ -1,0 +1,31 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blipkart | Register{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'auth.css' %}">{% endblock %}
+
+{% block content %}
+<section class="auth-shell reveal">
+    <article class="auth-card card-glass">
+        <p class="kicker">Join Blipkart</p>
+        <h1>Create your account</h1>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <label>Full Name
+                <input type="text" name="name" placeholder="Your name" required>
+            </label>
+            <label>Email
+                <input type="email" name="email" placeholder="you@example.com" required>
+            </label>
+            <label>Password
+                <div class="password-wrap">
+                    <input type="password" name="password" placeholder="Create password" required>
+                    <button type="button" class="toggle-pass">Show</button>
+                </div>
+            </label>
+            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        </form>
+        <p class="auth-meta">Already registered? <a href="/login/">Login</a></p>
+    </article>
+</section>
+{% endblock %}

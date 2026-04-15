@@ -1,17 +1,53 @@
+﻿{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blipkart || Home</title>
-    <link rel="stylesheet" href="{% static "account.css" %}">
-</head>
-<body>
-    <ul type="none">
-        <a href="{% url "home" %}"><li class="nav">Home</li></a>
-        <a href="{% url "cart" %}"><li class="nav">Cart</li></a>
-        <a href="{% url "account" %}"><li id="account" class="nav">account</li></a>
-    </ul>
-</body>
-</html>
+
+{% block title %}Blipkart | Account{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'account.css' %}">{% endblock %}
+
+{% block content %}
+<section class="account-hero reveal">
+    <div>
+        <p class="kicker">Profile Hub</p>
+        <h1>Welcome back, Shopper</h1>
+        <p>Track your orders, manage addresses, and keep your account secure.</p>
+    </div>
+    <div class="badge">Prime Member</div>
+</section>
+
+<section class="account-grid">
+    <article class="card-glass account-card reveal">
+        <h3>Personal Details</h3>
+        <ul>
+            <li><span>Name</span><strong>Blip User</strong></li>
+            <li><span>Email</span><strong>user@blipkart.com</strong></li>
+            <li><span>Phone</span><strong>+91 90000 00000</strong></li>
+        </ul>
+        <button type="button" class="btn btn-ghost btn-small">Edit Details</button>
+    </article>
+
+    <article class="card-glass account-card reveal">
+        <h3>Recent Activity</h3>
+        <div class="activity-item">
+            <p>Order #BK2091 was shipped</p>
+            <small>Today</small>
+        </div>
+        <div class="activity-item">
+            <p>Added 2 items to cart</p>
+            <small>Yesterday</small>
+        </div>
+        <div class="activity-item">
+            <p>Coupon BLIP30 applied</p>
+            <small>2 days ago</small>
+        </div>
+    </article>
+
+    <article class="card-glass account-card reveal">
+        <h3>Security</h3>
+        <p>Password strength</p>
+        <div class="meter">
+            <span style="width: 78%"></span>
+        </div>
+        <button type="button" class="btn btn-primary btn-small">Change Password</button>
+    </article>
+</section>
+{% endblock %}

@@ -1,20 +1,88 @@
-ul{
+﻿.account-hero {
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: linear-gradient(125deg, rgba(249, 115, 22, 0.18), rgba(34, 211, 238, 0.18));
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    background-color: rgb(101, 70, 131);
-    color: white;
-    height: 80px;
+    justify-content: space-between;
+    gap: 14px;
     align-items: center;
 }
-.nav{
-    font-size: x-large;
-    font-weight: bolder;
+
+.account-hero h1 {
+    margin: 8px 0;
 }
-#account{
-    background-color: white;
-    color: black;
+
+.badge {
+    font-weight: 800;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 9px 13px;
 }
-body{
-    background-color: rgb(184, 156, 211);
+
+.account-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+}
+
+.account-card {
+    padding: 16px;
+}
+
+.account-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+    display: grid;
+    gap: 8px;
+}
+
+.account-card li {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.94rem;
+}
+
+.account-card span,
+.activity-item small {
+    color: var(--muted);
+}
+
+.activity-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item p {
+    margin: 0 0 4px;
+}
+
+.meter {
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    overflow: hidden;
+    margin: 10px 0 14px;
+}
+
+.meter span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #22d3ee, #0f766e);
+}
+
+@media (max-width: 860px) {
+    .account-hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
