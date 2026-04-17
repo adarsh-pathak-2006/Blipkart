@@ -1,29 +1,32 @@
-﻿.hero {
+.hero {
     display: grid;
-    grid-template-columns: 1.4fr 0.8fr;
-    gap: 18px;
-    margin-bottom: 24px;
+    grid-template-columns: 1.6fr 0.9fr;
+    gap: 16px;
+    margin-bottom: 22px;
 }
 
-.hero-copy,
-.hero-stat {
-    padding: 28px;
-    border-radius: 24px;
+.hero-content,
+.hero-stats {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
 }
 
-.hero-copy {
-    background: linear-gradient(125deg, rgba(15, 118, 110, 0.16), rgba(34, 211, 238, 0.2));
-    border: 1px solid var(--border);
+.hero-content {
+    padding: 26px;
 }
 
-.hero-copy h1 {
-    margin: 10px 0 12px;
-    font-size: clamp(2rem, 4vw, 3rem);
+.hero-content h1 {
+    margin: 10px 0;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    line-height: 1.15;
 }
 
-.hero-copy p {
+.hero-content p {
+    margin: 0;
+    max-width: 62ch;
     color: var(--muted);
-    max-width: 60ch;
 }
 
 .hero-actions {
@@ -33,50 +36,85 @@
     flex-wrap: wrap;
 }
 
-.hero-stat h3 {
-    margin: 8px 0;
-    font-size: 2.4rem;
-}
-
-.catalog-toolbar {
+.hero-stats {
+    padding: 22px;
     display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 16px;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(150deg, color-mix(in srgb, var(--primary) 10%, transparent), color-mix(in srgb, var(--primary-2) 10%, transparent));
 }
 
-.catalog-toolbar p {
-    margin: 6px 0 0;
+.hero-stats h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+.stat-value {
+    margin: 4px 0;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.stat-label {
+    margin: 0;
     color: var(--muted);
 }
 
-.search-box input {
-    width: min(320px, 80vw);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 12px 14px;
-    font: inherit;
-    background: var(--surface-strong);
+.catalog-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.catalog-tools {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.control {
+    min-width: 180px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: var(--surface-solid);
     color: var(--text);
+    font: inherit;
 }
 
 .product-grid {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+    gap: 14px;
 }
 
 .product-card,
-.empty-card {
+.empty-state {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
     padding: 14px;
 }
 
+.product-card {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 40px rgba(12, 35, 66, 0.15);
+}
+
 .product-image-wrap {
-    height: 170px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    background: var(--bg-soft);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    height: 180px;
 }
 
 .product-image-wrap img {
@@ -85,32 +123,52 @@
     object-fit: cover;
 }
 
-.product-body h3 {
-    margin: 10px 0 6px;
+.product-card h3 {
+    margin: 12px 0 6px;
 }
 
-.product-body p {
+.description {
     margin: 0;
     color: var(--muted);
-    font-size: 0.94rem;
     min-height: 44px;
 }
 
 .product-foot {
     margin-top: 12px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     gap: 8px;
 }
 
-@media (max-width: 860px) {
+.price {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 24px;
+}
+
+@media (max-width: 900px) {
     .hero {
         grid-template-columns: 1fr;
     }
 
-    .catalog-toolbar {
+    .catalog-head {
         flex-direction: column;
         align-items: start;
+    }
+}
+
+@media (max-width: 640px) {
+    .control {
+        width: 100%;
+    }
+
+    .catalog-tools {
+        width: 100%;
     }
 }

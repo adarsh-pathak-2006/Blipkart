@@ -1,94 +1,155 @@
-﻿(function () {
-    const body = document.body;
-    const toggle = document.getElementById('themeToggle');
-    const key = 'blipkart-theme';
+(function () {
+    var root = document.documentElement;
+    root.classList.add('js-animate');
 
-    const applyTheme = (theme) => {
-        body.classList.toggle('dark', theme === 'dark');
+    var themeToggle = document.getElementById('themeToggle');
+    var savedTheme = localStorage.getItem('bk_theme');
+
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        root.setAttribute('data-theme', savedTheme);
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+            var current = root.getAttribute('data-theme') || 'light';
+            var next = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            localStorage.setItem('bk_theme', next);
+        });
+    }
+
+    var menuToggle = document.getElementById('menuToggle');
+    var navGroup = document.getElementById('navGroup');
+
+    if (menuToggle && navGroup) {
+        menuToggle.addEventListener('click', function () {
+            navGroup.classList.toggle('open');
+        });
+    }
+
+    var revealNodes = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && revealNodes.length) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        revealNodes.forEach(function (node) {
+            observer.observe(node);
+        });
+    } else {
+        revealNodes.forEach(function (node) {
+            node.classList.add('show');
+        });
+    }
+
+    var productGrid = document.getElementById('productGrid');
+    var searchInput = document.getElementById('productSearch');
+    var sortSelect = document.getElementById('productSort');
+
+    var applyProductFilters = function () {
+        if (!productGrid) {
+            return;
+        }
+
+        var cards = Array.prototype.slice.call(productGrid.querySelectorAll('.product-card'));
+        var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        var sort = sortSelect ? sortSelect.value : 'default';
+
+        cards.forEach(function (card) {
+            var name = card.getAttribute('data-name') || '';
+            var desc = card.getAttribute('data-description') || '';
+            var visible = !query || name.indexOf(query) > -1 || desc.indexOf(query) > -1;
+            card.style.display = visible ? '' : 'none';
+        });
+
+        if (sort !== 'default') {
+            cards.sort(function (a, b) {
+                var aName = a.getAttribute('data-name') || '';
+                var bName = b.getAttribute('data-name') || '';
+                var aPrice = parseInt(a.getAttribute('data-price') || '0', 10);
+                var bPrice = parseInt(b.getAttribute('data-price') || '0', 10);
+
+                if (sort === 'low-high') {
+                    return aPrice - bPrice;
+                }
+                if (sort === 'high-low') {
+                    return bPrice - aPrice;
+                }
+                return aName.localeCompare(bName);
+            });
+
+            cards.forEach(function (card) {
+                productGrid.appendChild(card);
+            });
+        }
     };
 
-    const saved = localStorage.getItem(key);
-    applyTheme(saved === 'dark' ? 'dark' : 'light');
-
-    if (toggle) {
-        toggle.addEventListener('click', function () {
-            const next = body.classList.contains('dark') ? 'light' : 'dark';
-            applyTheme(next);
-            localStorage.setItem(key, next);
-        });
+    if (searchInput) {
+        searchInput.addEventListener('input', applyProductFilters);
+    }
+    if (sortSelect) {
+        sortSelect.addEventListener('change', applyProductFilters);
     }
 
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.14 });
+    var cartItems = document.querySelectorAll('.cart-item');
+    var itemCount = document.getElementById('itemCount');
+    var subTotal = document.getElementById('subTotal');
+    var finalTotal = document.getElementById('finalTotal');
 
-    reveals.forEach(function (node) {
-        revealObserver.observe(node);
-    });
+    var recalcCart = function () {
+        if (!cartItems.length) {
+            return;
+        }
 
-    const search = document.getElementById('catalogSearch');
-    if (search) {
-        search.addEventListener('input', function () {
-            const q = search.value.trim().toLowerCase();
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(function (card) {
-                const name = card.dataset.name || '';
-                const desc = card.dataset.description || '';
-                const show = !q || name.includes(q) || desc.includes(q);
-                card.style.display = show ? '' : 'none';
-            });
-        });
-    }
+        var count = 0;
+        var total = 0;
 
-    const cartItems = document.querySelectorAll('.cart-item');
-    if (cartItems.length) {
-        const totalNode = document.getElementById('liveTotal');
-        const itemCountNode = document.getElementById('itemCount');
-
-        const recalc = function () {
-            let total = 0;
-            let count = 0;
-            cartItems.forEach(function (item) {
-                const qty = parseInt(item.querySelector('.qty-value').textContent, 10);
-                const price = parseInt(item.dataset.price || '0', 10);
-                total += qty * price;
-                count += qty;
-            });
-
-            if (totalNode) {
-                totalNode.textContent = '₹' + total;
-            }
-            if (itemCountNode) {
-                itemCountNode.textContent = String(count);
-            }
-        };
-
-        document.querySelectorAll('.qty-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                const wrap = btn.closest('.qty-control');
-                const valueNode = wrap.querySelector('.qty-value');
-                let qty = parseInt(valueNode.textContent, 10);
-                qty = btn.dataset.action === 'plus' ? qty + 1 : Math.max(1, qty - 1);
-                valueNode.textContent = String(qty);
-                recalc();
-            });
+        cartItems.forEach(function (item) {
+            var price = parseInt(item.getAttribute('data-price') || '0', 10);
+            var qtyNode = item.querySelector('.qty-value');
+            var qty = parseInt(qtyNode ? qtyNode.textContent : '1', 10);
+            count += qty;
+            total += price * qty;
         });
 
-        recalc();
-    }
+        if (itemCount) {
+            itemCount.textContent = String(count);
+        }
+        if (subTotal) {
+            subTotal.textContent = 'Rs. ' + total;
+        }
+        if (finalTotal) {
+            finalTotal.textContent = 'Rs. ' + total;
+        }
+    };
 
-    document.querySelectorAll('.toggle-pass').forEach(function (btn) {
+    document.querySelectorAll('.qty-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            const input = btn.closest('.password-wrap').querySelector('input');
-            const hidden = input.type === 'password';
-            input.type = hidden ? 'text' : 'password';
-            btn.textContent = hidden ? 'Hide' : 'Show';
+            var wrap = btn.closest('.qty-box');
+            if (!wrap) {
+                return;
+            }
+
+            var valueNode = wrap.querySelector('.qty-value');
+            if (!valueNode) {
+                return;
+            }
+
+            var currentQty = parseInt(valueNode.textContent || '1', 10);
+            if (btn.getAttribute('data-action') === 'plus') {
+                currentQty += 1;
+            } else {
+                currentQty = Math.max(1, currentQty - 1);
+            }
+            valueNode.textContent = String(currentQty);
+            recalcCart();
         });
     });
+
+    recalcCart();
 })();

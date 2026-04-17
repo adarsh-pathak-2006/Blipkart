@@ -1,52 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Blipkart{% endblock %}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'base.css' %}">
-    {% block extra_css %}{% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Blipkart{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Clash+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'base.css' %}">
+  {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-grid"></div>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
 
-    <header class="site-header">
-        <nav class="nav-shell">
-            <a class="brand" href="{% url 'home' %}">
-                <span class="brand-dot"></span>
-                Blipkart
-            </a>
-            <div class="nav-links">
-                {% with current=request.resolver_match.url_name %}
-                <a class="nav-link {% if current == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
-                <a class="nav-link {% if current == 'cart' %}active{% endif %}" href="{% url 'cart' %}">Cart</a>
-                <a class="nav-link {% if current == 'account' %}active{% endif %}" href="{% url 'account' %}">Account</a>
-                {% endwith %}
-            </div>
-            <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <span class="theme-btn-track">
-                    <span class="theme-btn-thumb"></span>
-                </span>
-                <span class="theme-btn-label">Theme</span>
-            </button>
-        </nav>
-    </header>
+  <header class="site-header">
+    <nav class="container nav-shell">
+      <a class="brand" href="{% url 'home' %}">
+        <span class="brand-mark"></span>
+        Blipkart
+      </a>
 
-    <main class="main-wrap">
-        {% block content %}{% endblock %}
-    </main>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" type="button">Menu</button>
 
-    <footer class="site-footer">
-        <p>Blipkart • Fast picks, better prices.</p>
-    </footer>
+      <div class="nav-group" id="navGroup">
+        <div class="nav-links">
+          {% with current=request.resolver_match.url_name %}
+          <a class="nav-link {% if current == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+          <a class="nav-link {% if current == 'cart' %}active{% endif %}" href="{% url 'products:cart' %}">Cart</a>
+          <a class="nav-link {% if current == 'account' %}active{% endif %}" href="{% url 'account' %}">Account</a>
+          {% endwith %}
+        </div>
 
-    <script src="{% static 'app.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+        <div class="auth-links">
+          {% if user.is_authenticated %}
+          <span class="hello">Hi, {{ user.first_name|default:user.username }}</span>
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          {% else %}
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+          {% endif %}
+
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+            <span class="theme-dot"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container main-wrap">
+    {% if messages %}
+    <section class="message-wrap reveal">
+      {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <p>Blipkart</p>
+      <p>Premium shopping experience for everyday essentials</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'app.js' %}"></script>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>

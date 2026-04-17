@@ -1,64 +1,52 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Blipkart | Cart{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'cart.css' %}">{% endblock %}
 
 {% block content %}
-<section class="cart-head reveal">
-    <div>
-        <p class="kicker">Checkout</p>
-        <h1>Your Cart</h1>
-    </div>
-    <a class="btn btn-ghost" href="{% url 'home' %}">Continue Shopping</a>
+<section class="page-head cart-head reveal">
+  <div>
+    <h1>Your Cart</h1>
+    <p>Adjust quantity and review your final total.</p>
+  </div>
+  <a class="btn btn-secondary" href="{% url 'home' %}">Continue Shopping</a>
 </section>
 
 <section class="cart-layout">
-    <div class="cart-list">
-        {% for i in item %}
-        <article class="cart-item card-glass reveal" data-price="{{ i.price }}">
-            <img src="{{ i.image.url }}" alt="{{ i.name }}">
-            <div class="cart-item-body">
-                <h3>{{ i.name }}</h3>
-                <p>{{ i.description }}</p>
-                <strong>₹{{ i.price }}</strong>
-            </div>
-            <div class="cart-item-actions">
-                <div class="qty-control">
-                    <button type="button" class="qty-btn" data-action="minus">-</button>
-                    <span class="qty-value">1</span>
-                    <button type="button" class="qty-btn" data-action="plus">+</button>
-                </div>
-                <a class="btn btn-danger btn-small" href="{% url 'remove_from_cart' i.id %}">Remove</a>
-            </div>
-        </article>
-        {% empty %}
-        <article class="empty-card card-glass reveal">
-            <h3>Cart is empty</h3>
-            <p>Add some products to see them here.</p>
-        </article>
-        {% endfor %}
-    </div>
+  <div class="cart-list" id="cartList">
+    {% for i in item %}
+    <article class="cart-item reveal" data-price="{{ i.price }}">
+      <img src="{{ i.image.url }}" alt="{{ i.name }}">
+      <div class="item-info">
+        <h2>{{ i.name }}</h2>
+        <p>{{ i.description }}</p>
+        <p class="price">Rs. {{ i.price }}</p>
+      </div>
+      <div class="actions">
+        <div class="qty-box">
+          <button class="qty-btn" type="button" data-action="minus">-</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-action="plus">+</button>
+        </div>
+        <a class="btn btn-danger" href="{% url 'products:remove_from_cart' i.id %}">Remove</a>
+      </div>
+    </article>
+    {% empty %}
+    <article class="empty-state reveal">
+      <h2>Your cart is empty</h2>
+      <p>Add products from the home page.</p>
+    </article>
+    {% endfor %}
+  </div>
 
-    <aside class="summary card-glass reveal">
-        <h2>Order Summary</h2>
-        <div class="summary-line">
-            <span>Items</span>
-            <span id="itemCount">{{ item|length }}</span>
-        </div>
-        <div class="summary-line">
-            <span>Subtotal</span>
-            <span id="serverTotal" data-total="{{ total }}">₹{{ total }}</span>
-        </div>
-        <div class="summary-line">
-            <span>Delivery</span>
-            <span>Free</span>
-        </div>
-        <div class="summary-line total">
-            <span>Total</span>
-            <span id="liveTotal">₹{{ total }}</span>
-        </div>
-        <button type="button" class="btn btn-primary btn-full">Proceed To Pay</button>
-    </aside>
+  <aside class="summary-box reveal">
+    <h2>Order Summary</h2>
+    <div class="line"><span>Items</span><span id="itemCount">{{ item_count }}</span></div>
+    <div class="line"><span>Subtotal</span><span id="subTotal">Rs. {{ total }}</span></div>
+    <div class="line"><span>Shipping</span><span>Free</span></div>
+    <div class="line total"><span>Total</span><span id="finalTotal">Rs. {{ total }}</span></div>
+    <button type="button" class="btn btn-full" id="payBtn">Proceed to Pay</button>
+  </aside>
 </section>
 {% endblock %}

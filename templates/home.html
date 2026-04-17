@@ -1,57 +1,61 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Blipkart | Discover{% endblock %}
+{% block title %}Blipkart | Home{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'home.css' %}">{% endblock %}
 
 {% block content %}
 <section class="hero reveal">
-    <div class="hero-copy">
-        <p class="kicker">Fresh Drops</p>
-        <h1>Shop trending picks built for everyday wins.</h1>
-        <p>Curated products, smooth checkout flow, and a fast cart experience.</p>
-        <div class="hero-actions">
-            <a class="btn btn-primary" href="#catalog">Browse Products</a>
-            <a class="btn btn-ghost" href="{% url 'cart' %}">View Cart</a>
-        </div>
+  <div class="hero-content">
+    <p class="chip">New Season Collection</p>
+    <h1>Shop smarter with a sleek, fast, and trusted storefront.</h1>
+    <p>Explore curated products with transparent pricing and effortless cart management.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#catalog">Start Shopping</a>
+      <a class="btn btn-secondary" href="{% url 'products:cart' %}">View Cart</a>
     </div>
-    <div class="hero-stat card-glass">
-        <p>Total Catalog</p>
-        <h3>{{ item|length }}</h3>
-        <small>Live products available now</small>
-    </div>
+  </div>
+  <aside class="hero-stats">
+    <h3>Live Catalog</h3>
+    <p class="stat-value">{{ item|length }}</p>
+    <p class="stat-label">products available</p>
+  </aside>
 </section>
 
-<section class="catalog-toolbar reveal" id="catalog">
-    <div>
-        <h2>Product Catalog</h2>
-        <p>Use search to quickly find what you want.</p>
-    </div>
-    <label class="search-box">
-        <input type="text" id="catalogSearch" placeholder="Search by name or description">
-    </label>
+<section class="catalog-head reveal" id="catalog">
+  <div class="page-head">
+    <h2>All Products</h2>
+    <p>Find what you need instantly.</p>
+  </div>
+  <div class="catalog-tools">
+    <input id="productSearch" class="control" type="text" placeholder="Search products...">
+    <select id="productSort" class="control">
+      <option value="default">Sort: Featured</option>
+      <option value="low-high">Price: Low to High</option>
+      <option value="high-low">Price: High to Low</option>
+      <option value="name">Name: A to Z</option>
+    </select>
+  </div>
 </section>
 
 <section class="product-grid" id="productGrid">
-    {% for i in item %}
-    <article class="product-card reveal" data-name="{{ i.name|lower }}" data-description="{{ i.description|lower }}">
-        <div class="product-image-wrap">
-            <img src="{{ i.image.url }}" alt="{{ i.name }}">
-        </div>
-        <div class="product-body">
-            <h3>{{ i.name }}</h3>
-            <p>{{ i.description }}</p>
-        </div>
-        <div class="product-foot">
-            <strong>₹{{ i.price }}</strong>
-            <a class="btn btn-primary btn-small" href="{% url 'add_to_cart' i.id %}">Add To Cart</a>
-        </div>
-    </article>
-    {% empty %}
-    <article class="empty-card card-glass reveal">
-        <h3>No products yet</h3>
-        <p>Add products from admin panel to populate this catalog.</p>
-    </article>
-    {% endfor %}
+  {% for i in item %}
+  <article class="product-card reveal" data-name="{{ i.name|lower }}" data-description="{{ i.description|lower }}" data-price="{{ i.price }}">
+    <div class="product-image-wrap">
+      <img src="{{ i.image.url }}" alt="{{ i.name }}">
+    </div>
+    <h3>{{ i.name }}</h3>
+    <p class="description">{{ i.description }}</p>
+    <div class="product-foot">
+      <p class="price">Rs. {{ i.price }}</p>
+      <a class="btn" href="{% url 'products:add_to_cart' i.id %}">Add to Cart</a>
+    </div>
+  </article>
+  {% empty %}
+  <article class="empty-state reveal">
+    <h3>No products found</h3>
+    <p>Add products from admin panel to see them here.</p>
+  </article>
+  {% endfor %}
 </section>
 {% endblock %}

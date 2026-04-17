@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Blipkart | Account{% endblock %}
@@ -6,48 +6,33 @@
 
 {% block content %}
 <section class="account-hero reveal">
-    <div>
-        <p class="kicker">Profile Hub</p>
-        <h1>Welcome back, Shopper</h1>
-        <p>Track your orders, manage addresses, and keep your account secure.</p>
-    </div>
-    <div class="badge">Prime Member</div>
+  <p class="chip">Account Center</p>
+  <h1>Welcome, {{ user.first_name|default:user.username }}</h1>
+  <p>Monitor your profile and shopping activity from one place.</p>
 </section>
 
 <section class="account-grid">
-    <article class="card-glass account-card reveal">
-        <h3>Personal Details</h3>
-        <ul>
-            <li><span>Name</span><strong>Blip User</strong></li>
-            <li><span>Email</span><strong>user@blipkart.com</strong></li>
-            <li><span>Phone</span><strong>+91 90000 00000</strong></li>
-        </ul>
-        <button type="button" class="btn btn-ghost btn-small">Edit Details</button>
-    </article>
+  <article class="account-card reveal">
+    <h2>Profile Details</h2>
+    <p><strong>Name:</strong> {{ user.first_name|default:'Not set' }}</p>
+    <p><strong>Email:</strong> {{ user.email|default:'Not set' }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+  </article>
 
-    <article class="card-glass account-card reveal">
-        <h3>Recent Activity</h3>
-        <div class="activity-item">
-            <p>Order #BK2091 was shipped</p>
-            <small>Today</small>
-        </div>
-        <div class="activity-item">
-            <p>Added 2 items to cart</p>
-            <small>Yesterday</small>
-        </div>
-        <div class="activity-item">
-            <p>Coupon BLIP30 applied</p>
-            <small>2 days ago</small>
-        </div>
-    </article>
+  <article class="account-card reveal">
+    <h2>Cart Snapshot</h2>
+    <p><strong>Items in Cart:</strong> {{ cart_count }}</p>
+    <p><strong>Cart Total:</strong> Rs. {{ cart_total }}</p>
+    <a class="btn" href="{% url 'products:cart' %}">Go to Cart</a>
+  </article>
 
-    <article class="card-glass account-card reveal">
-        <h3>Security</h3>
-        <p>Password strength</p>
-        <div class="meter">
-            <span style="width: 78%"></span>
-        </div>
-        <button type="button" class="btn btn-primary btn-small">Change Password</button>
-    </article>
+  <article class="account-card reveal">
+    <h2>Quick Actions</h2>
+    <p>Continue shopping or securely sign out.</p>
+    <div class="action-list">
+      <a class="btn btn-secondary" href="{% url 'home' %}">Browse Products</a>
+      <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+    </div>
+  </article>
 </section>
 {% endblock %}

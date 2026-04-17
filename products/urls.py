@@ -1,11 +1,11 @@
-from django.contrib import admin
-from django.urls import path,include
+from django.urls import path
+
 from . import views
 
+app_name = 'products'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.cart, name='cart'),
-    path('remove-from-cart/<int:id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('add/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    path('remove/<int:id>/', views.remove_from_cart, name='remove_from_cart'),
 ]
-

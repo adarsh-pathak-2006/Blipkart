@@ -1,88 +1,46 @@
-﻿.account-hero {
-    padding: 20px;
+.account-hero {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 24px;
     margin-bottom: 14px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: linear-gradient(125deg, rgba(249, 115, 22, 0.18), rgba(34, 211, 238, 0.18));
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-    align-items: center;
 }
 
 .account-hero h1 {
     margin: 8px 0;
 }
 
-.badge {
-    font-weight: 800;
-    background: var(--surface-strong);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 9px 13px;
+.account-hero p {
+    margin: 0;
+    color: var(--muted);
 }
 
 .account-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
 }
 
 .account-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
     padding: 16px;
 }
 
-.account-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 12px 0;
+.account-card h2 {
+    margin-top: 0;
+}
+
+.account-card p {
+    margin: 0 0 10px;
+    color: color-mix(in srgb, var(--text) 80%, var(--muted));
+}
+
+.action-list {
+    margin-top: 12px;
     display: grid;
     gap: 8px;
-}
-
-.account-card li {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    font-size: 0.94rem;
-}
-
-.account-card span,
-.activity-item small {
-    color: var(--muted);
-}
-
-.activity-item {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.activity-item:last-child {
-    border-bottom: none;
-}
-
-.activity-item p {
-    margin: 0 0 4px;
-}
-
-.meter {
-    width: 100%;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--bg-soft);
-    overflow: hidden;
-    margin: 10px 0 14px;
-}
-
-.meter span {
-    display: block;
-    height: 100%;
-    background: linear-gradient(90deg, #22d3ee, #0f766e);
-}
-
-@media (max-width: 860px) {
-    .account-hero {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
