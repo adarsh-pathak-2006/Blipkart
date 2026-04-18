@@ -134,6 +134,10 @@ h3,
     gap: 8px;
 }
 
+.auth-links form {
+    margin: 0;
+}
+
 .hello {
     color: var(--muted);
     font-size: 0.9rem;
@@ -146,6 +150,13 @@ h3,
     padding: 8px 12px;
     border-radius: 999px;
     transition: 0.2s ease;
+}
+
+button.nav-link {
+    border: none;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
 }
 
 .nav-link:hover,
@@ -255,6 +266,13 @@ html[data-theme="dark"] .theme-dot {
 .btn:hover {
     transform: translateY(-1px);
     filter: brightness(1.05);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    filter: none;
 }
 
 .btn-secondary {

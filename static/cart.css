@@ -62,6 +62,10 @@
     justify-items: end;
 }
 
+.actions form {
+    margin: 0;
+}
+
 .qty-box {
     display: inline-flex;
     border: 1px solid var(--line);

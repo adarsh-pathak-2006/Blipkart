@@ -141,6 +141,10 @@
     gap: 8px;
 }
 
+.product-foot form {
+    margin: 0;
+}
+
 .price {
     margin: 0;
     font-size: 1.05rem;

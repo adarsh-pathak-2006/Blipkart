@@ -48,7 +48,10 @@
     <p class="description">{{ i.description }}</p>
     <div class="product-foot">
       <p class="price">Rs. {{ i.price }}</p>
-      <a class="btn" href="{% url 'products:add_to_cart' i.id %}">Add to Cart</a>
+      <form method="post" action="{% url 'products:add_to_cart' i.id %}">
+        {% csrf_token %}
+        <button class="btn" type="submit">Add to Cart</button>
+      </form>
     </div>
   </article>
   {% empty %}

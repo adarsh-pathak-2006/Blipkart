@@ -29,7 +29,10 @@
           <span class="qty-value">1</span>
           <button class="qty-btn" type="button" data-action="plus">+</button>
         </div>
-        <a class="btn btn-danger" href="{% url 'products:remove_from_cart' i.id %}">Remove</a>
+        <form method="post" action="{% url 'products:remove_from_cart' i.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
       </div>
     </article>
     {% empty %}
@@ -46,7 +49,14 @@
     <div class="line"><span>Subtotal</span><span id="subTotal">Rs. {{ total }}</span></div>
     <div class="line"><span>Shipping</span><span>Free</span></div>
     <div class="line total"><span>Total</span><span id="finalTotal">Rs. {{ total }}</span></div>
-    <button type="button" class="btn btn-full" id="payBtn">Proceed to Pay</button>
+    {% if item_count > 0 %}
+    <form method="post" action="{% url 'products:place_order' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-full" id="payBtn">Order</button>
+    </form>
+    {% else %}
+    <button type="button" class="btn btn-full" id="payBtn" disabled>Order</button>
+    {% endif %}
   </aside>
 </section>
 {% endblock %}
